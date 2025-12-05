@@ -1,0 +1,7 @@
+{
+  "stops": [
+    { "name": "Magazyn", "lat": 50.06, "lng": 19.938, "eta": "08:30" },
+    { "name": "Klient A", "lat": 50.067, "lng": 19.945, "eta": "09:00" },
+    { "name": "Klient B", "lat": 50.072, "lng": 19.952, "eta": "09:30" }
+  ]
+}
