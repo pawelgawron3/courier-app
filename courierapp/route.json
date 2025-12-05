@@ -1,7 +1,22 @@
 {
-  "stops": [
-    { "name": "Magazyn", "lat": 50.06, "lng": 19.938, "eta": "08:30" },
-    { "name": "Klient A", "lat": 50.067, "lng": 19.945, "eta": "09:00" },
-    { "name": "Klient B", "lat": 50.072, "lng": 19.952, "eta": "09:30" }
+  "orders": [
+    {
+      "id": 1,
+      "name": "Dostawa 1",
+      "stops": [
+        { "name": "Magazyn", "lat": 50.06, "lng": 19.938, "eta": "08:30" },
+        { "name": "Klient A", "lat": 50.067, "lng": 19.945, "eta": "09:00" },
+        { "name": "Klient B", "lat": 50.072, "lng": 19.952, "eta": "09:30" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Dostawa 2",
+      "stops": [
+        { "name": "Magazyn", "lat": 50.06, "lng": 19.938, "eta": "10:00" },
+        { "name": "Klient C", "lat": 50.065, "lng": 19.94, "eta": "10:30" },
+        { "name": "Klient D", "lat": 50.07, "lng": 19.95, "eta": "11:00" }
+      ]
+    }
   ]
 }
