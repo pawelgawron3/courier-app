@@ -47,7 +47,7 @@ body {
 .btn {
   position: absolute;
   top: 90px;
-  left: 75px;
+  left: 240px;
   background: #28a745;
   color: white;
   border: none;
@@ -88,4 +88,71 @@ body {
 
 .leaflet-popup-content button:hover {
   background: #0056b3;
+}
+
+#orderSelect {
+  position: absolute;
+  top: 90px;
+  left: 50px;
+  z-index: 1100;
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+#orderSelect:hover {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#orderSelect:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+#directionsPanel {
+  position: absolute;
+  top: 140px;
+  right: 20px;
+  width: 280px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 1000;
+}
+
+#directionsPanel div {
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  border-left: 4px solid #007bff;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+#directionsPanel div:last-child {
+  margin-bottom: 0;
+}
+
+#directionsPanel::-webkit-scrollbar {
+  width: 10px;
+}
+
+#directionsPanel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+#directionsPanel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
