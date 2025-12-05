@@ -1,13 +1,47 @@
-document.addEventListener("DOMContentLoaded", () => {
-  loadOrders();
-});
-
-const map = L.map("map").setView([50.061, 19.938], 13);
 let markers = [];
+let currentMarker;
+const map = L.map("map").setView([50.061, 19.938], 13);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
 }).addTo(map);
+
+if (navigator.geolocation) {
+  navigator.geolocation.watchPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      const courierIcon = L.icon({
+        iconUrl: "./img/truck.svg",
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -40],
+      });
+
+      if (!currentMarker) {
+        // dodanie marker kuriera po raz pierwszy
+        currentMarker = L.marker([lat, lng], {
+          icon: courierIcon,
+          zIndexOffset: 1000,
+        })
+          .addTo(map)
+          .bindPopup("Twoja lokalizacja")
+          .openPopup();
+      } else {
+        // przesuwanie istniejącego markera
+        currentMarker.setLatLng([lat, lng]);
+      }
+
+      // przesunięcie mapy na aktualną pozycję
+      map.setView([lat, lng], 13);
+    },
+    (err) => console.warn("Błąd geolokalizacji:", err),
+    { enableHighAccuracy: true, maximumAge: 10000 }
+  );
+} else {
+  console.warn("Geolokalizacja nie wspierana, używam domyślnej pozycji");
+}
 
 async function loadOrders() {
   const url = "http://localhost:3000/orders";
@@ -54,6 +88,11 @@ function renderStops(stops) {
     map.removeControl(window.routingControl);
   }
 
+  if (currentMarker) {
+    const pos = currentMarker.getLatLng();
+    coordinates.push([pos.lat, pos.lng]);
+  }
+
   //Dodanie nowych markerów
   stops.forEach((p) => {
     coordinates.push([p.lat, p.lng]);
@@ -89,3 +128,5 @@ function renderStops(stops) {
     });
   });
 }
+
+document.addEventListener("DOMContentLoaded", loadOrders);
