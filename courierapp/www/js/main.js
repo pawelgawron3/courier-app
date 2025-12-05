@@ -14,9 +14,9 @@ if (navigator.geolocation) {
 
       const courierIcon = L.icon({
         iconUrl: "./img/truck.svg",
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -40],
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        popupAnchor: [0, -20],
       });
 
       if (!currentMarker) {
