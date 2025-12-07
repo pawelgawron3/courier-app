@@ -1,6 +1,9 @@
 let markers = [];
 let currentMarker;
+const btn = document.querySelector("button.btn");
 const map = L.map("map").setView([50.061, 19.938], 13);
+
+btn.addEventListener("click", loadRoute);
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
