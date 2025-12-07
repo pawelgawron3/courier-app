@@ -1,3 +1,4 @@
+let nextInstructionIndex = 0;
 let markers = [];
 let currentMarker;
 let travelPath = [];
@@ -151,6 +152,7 @@ function renderStops(stops) {
     const summary = e.routes[0].summary;
     const instructionsContainer = document.getElementById("directionsPanel");
     const routeInfo = document.getElementById("routeInfo");
+
     instructionsContainer.innerHTML = "";
     routeInfo.innerHTML = `
   <span>Dystans: <strong>${(summary.totalDistance / 1000).toFixed(
@@ -166,7 +168,34 @@ function renderStops(stops) {
       div.textContent = inst.text;
       instructionsContainer.appendChild(div);
     });
+
+    nextInstructionIndex = 0;
   });
 }
+
+// funkcja sprawdzająca odległość do następnej instrukcji i odtwarzająca ja
+function checkNextInstruction() {
+  if (!window.routingControl || !currentMarker) return;
+
+  const route = window.routingControl.getPlan().getWaypoints();
+  if (!route || nextInstructionIndex >= route.length) return;
+
+  const currentPos = currentMarker.getLatLng();
+  const nextWaypoint = route[nextInstructionIndex].latLng;
+
+  const distance = map.distance(currentPos, nextWaypoint); // w metrach
+
+  if (distance < 100) {
+    const instText =
+      window.routingControl._routes[0].instructions[nextInstructionIndex].text;
+    const speak = new SpeechSynthesisUtterance(instText);
+    speak.lang = "pl-PL";
+    speechSynthesis.speak(speak);
+
+    nextInstructionIndex++;
+  }
+}
+
+setInterval(checkNextInstruction, 2000);
 
 document.addEventListener("DOMContentLoaded", loadOrders);
