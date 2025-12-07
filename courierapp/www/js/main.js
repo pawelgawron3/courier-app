@@ -1,5 +1,7 @@
 let markers = [];
 let currentMarker;
+let travelPath = [];
+let travelLine = null;
 const btn = document.querySelector("button.btn");
 const map = L.map("map").setView([50.061, 19.938], 13);
 
@@ -13,6 +15,17 @@ if (navigator.geolocation) {
   navigator.geolocation.watchPosition(
     (pos) => {
       const { latitude, longitude } = pos.coords;
+
+      travelPath.push([latitude, longitude]);
+
+      // jeśli linia istnieje - aktualizacja, jeśli niee to ją tworzymy
+      if (travelLine) {
+        travelLine.setLatLngs(travelPath);
+      } else {
+        travelLine = L.polyline(travelPath, { color: "blue", weight: 4 }).addTo(
+          map
+        );
+      }
 
       const courierIcon = L.icon({
         iconUrl: "./img/truck.svg",
