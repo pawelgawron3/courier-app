@@ -51,7 +51,9 @@ async function loadOrders() {
   const selectElement = document.getElementById("orderSelect");
 
   try {
-    const data = await fetch(url).then((r) => r.json());
+    const response = await fetch(url);
+    const data = await response.json();
+
     data.forEach((order) => {
       const option = document.createElement("option");
       option.value = order.id;
@@ -71,7 +73,9 @@ async function loadRoute() {
   const url = `http://localhost:3000/orders/${orderId}`;
 
   try {
-    const data = await fetch(url).then((r) => r.json());
+    const response = await fetch(url);
+    const data = await response.json();
+
     renderStops(data.stops);
   } catch (err) {
     console.error(err);
