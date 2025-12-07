@@ -156,3 +156,31 @@ body {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
+
+#routeInfo {
+  position: absolute;
+  top: 180px;
+  left: 20px;
+  width: 240px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 500;
+  z-index: 1000;
+  border-left: 5px solid #28a745;
+}
+
+#routeInfo span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+#routeInfo strong {
+  font-size: 17px;
+  color: #28a745;
+}
