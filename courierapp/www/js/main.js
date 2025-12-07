@@ -11,9 +11,8 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 if (navigator.geolocation) {
   navigator.geolocation.watchPosition(
-    (position) => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
+    (pos) => {
+      const { latitude, longitude } = pos.coords;
 
       const courierIcon = L.icon({
         iconUrl: "./img/truck.svg",
@@ -24,7 +23,7 @@ if (navigator.geolocation) {
 
       if (!currentMarker) {
         // dodanie marker kuriera po raz pierwszy
-        currentMarker = L.marker([lat, lng], {
+        currentMarker = L.marker([latitude, longitude], {
           icon: courierIcon,
           zIndexOffset: 1000,
         })
@@ -33,11 +32,22 @@ if (navigator.geolocation) {
           .openPopup();
       } else {
         // przesuwanie istniejącego markera
-        currentMarker.setLatLng([lat, lng]);
+        currentMarker.setLatLng([latitude, longitude]);
       }
 
       // przesunięcie mapy na aktualną pozycję
-      map.setView([lat, lng], 13);
+      map.setView([latitude, longitude], 13);
+
+      // aktualizacja dynamicznie trasy
+      if (window.routingControl) {
+        const currentWaypoints = window.routingControl.getWaypoints();
+        // ustaw pierwszy waypoint na aktualną pozycję kuriera
+        const newWaypoints = [
+          L.latLng(latitude, longitude),
+          ...currentWaypoints.slice(1),
+        ];
+        window.routingControl.setWaypoints(newWaypoints);
+      }
     },
     (err) => console.warn("Błąd geolokalizacji:", err),
     { enableHighAccuracy: true, maximumAge: 10000 }
@@ -125,8 +135,18 @@ function renderStops(stops) {
   // Wyświetlenie instrukcji dotarcia do celu/krok po kroku
   window.routingControl.on("routesfound", function (e) {
     const route = e.routes[0];
+    const summary = e.routes[0].summary;
     const instructionsContainer = document.getElementById("directionsPanel");
+    const routeInfo = document.getElementById("routeInfo");
     instructionsContainer.innerHTML = "";
+    routeInfo.innerHTML = `
+  <span>Dystans: <strong>${(summary.totalDistance / 1000).toFixed(
+    2
+  )} km</strong></span>
+  <span>Szacowany czas: <strong>${(summary.totalTime / 60).toFixed(
+    1
+  )} min</strong></span>
+`;
 
     route.instructions.forEach((inst) => {
       const div = document.createElement("div");
